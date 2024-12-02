@@ -1,5 +1,6 @@
 import { Exercise, exerciseList } from './WorkoutItem'
 
+PersistentStorage.persistProp<Exercise[]>('selectedExerciseList', [])
 
 @Entry
 @Component
@@ -7,21 +8,40 @@ export struct ItemDetail {
   private exerciseList: Exercise[] = exerciseList
   pathStack: NavPathStack = new NavPathStack()
   @State workoutType: string = ''
+  @StorageLink('selectedExerciseList') selectedExercise: Exercise[] = []
 
   build() {
     NavDestination() {
-      Grid() {
-        ForEach(this.exerciseList, (item: Exercise, index: number) => {
-          if (item.target_muscle.includes(this.workoutType)) {
-            GridItem() {
-              Text(item.name)
+      Column() {
+
+        Grid() {
+          ForEach(this.exerciseList, (item: Exercise, index: number) => {
+            if (item.target_muscle.includes(this.workoutType)) {
+              GridItem() {
+                Text(item.name)
+              }
+              .borderWidth(1)
+              .onClick(() => {
+                this.selectedExercise.push(item)
+              })
             }
-            .borderWidth(1)
+          })
+        }
+        .rowsTemplate('1fr 1fr 1fr 1fr 1fr')
+        .columnsTemplate('1fr 1fr 1fr 1fr')
+        .height('50%')
+
+        Column() {
+          List() {
+            ForEach(this.selectedExercise, (item: Exercise) => {
+              ListItem() {
+                Text(item.name)
+              }
+            })
           }
-        })
+        }
+        .height('50%')
       }
-      .rowsTemplate('1fr 1fr 1fr 1fr 1fr')
-      .columnsTemplate('1fr 1fr 1fr 1fr')
     }
     .title('ItemDetail')
     .onReady((context: NavDestinationContext) => {
