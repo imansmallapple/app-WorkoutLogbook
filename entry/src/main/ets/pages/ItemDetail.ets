@@ -18,7 +18,13 @@ export struct ItemDetail {
           ForEach(this.exerciseList, (item: Exercise, index: number) => {
             if (item.target_muscle.includes(this.workoutType)) {
               GridItem() {
-                Text(item.name)
+                Column() {
+                  Image(this.selectedExercise.includes(item) ? $r('app.media.selected_icon'):$r('app.media.unselected_icon'))
+                    .width(20)
+                  Text(item.name)
+                }
+                .width('100%')
+                .height('100%')
               }
               .borderWidth(1)
               .onClick(() => {
@@ -28,7 +34,7 @@ export struct ItemDetail {
           })
         }
         .rowsTemplate('1fr 1fr 1fr 1fr 1fr')
-        .columnsTemplate('1fr 1fr 1fr 1fr')
+        .columnsTemplate('1fr 1fr 1fr')
         .height('50%')
 
         Column() {
