@@ -32,11 +32,11 @@ export const exerciseList: Exercise[] = [
     target_muscle: ["Triceps"]
   },
   {
-    name: 'Triceps Pushdown - Rope Attachment',
+    name: 'Triceps Pushdown \n- Rope Attachment',
     target_muscle: ["Triceps"]
   },
   {
-    name: 'Standing Dumbbell Triceps Extension',
+    name: 'Standing Dumbbell\nTriceps Extension',
     target_muscle: ["Triceps"]
   },
   {
@@ -52,7 +52,7 @@ export const exerciseList: Exercise[] = [
     target_muscle: ["Triceps"]
   },
   {
-    name: 'Dumbbell One-Arm Triceps Extension',
+    name: 'Dumbbell One-Arm\n Triceps Extension',
     target_muscle: ["Triceps"]
   },
   {
@@ -108,7 +108,7 @@ export const exerciseList: Exercise[] = [
     target_muscle: ["Abdomen", "Lower back"]
   },
   {
-    name: 'Seated Back Extension Machine',
+    name: 'Seated Back\nExtension Machine',
     target_muscle: ["Abdomen", "Lower back"]
   },
   {
@@ -132,7 +132,7 @@ export const exerciseList: Exercise[] = [
 @Entry
 @Component
 export struct WorkoutItem {
-  @State workoutList: string[] = typeList
+  @State workoutList: Exercise[] = exerciseList
   pathStack: NavPathStack = new NavPathStack()
 
   @Builder
@@ -147,34 +147,56 @@ export struct WorkoutItem {
   build() {
     NavDestination() {
       Navigation(this.pathStack) {
-        Grid() {
-          ForEach(this.workoutList, (item: string, index: number) => {
-            if (item == 'Cardio') {
-              GridItem() {
-                Text(item)
+        // Grid() {
+        //   ForEach(this.workoutList, (item: string, index: number) => {
+        //     if (item == 'Cardio') {
+        //       GridItem() {
+        //         Text(item)
+        //       }
+        //       .borderWidth(1)
+        //       .columnStart(1)
+        //       .columnEnd(4)
+        //     }
+        //     else {
+        //       GridItem() {
+        //         Text(item)
+        //       }
+        //       .borderWidth(1)
+        //       .onClick(() => {
+        //         let tmp: string = item
+        //         this.pathStack.pushPathByName('ItemDetail', tmp)
+        //       })
+        //     }
+        //   })
+        // }
+        // .rowsTemplate('1fr 1fr 1fr 1fr 1fr')
+        // .columnsTemplate('1fr 1fr 1fr 1fr')
+        List() {
+          ForEach(this.workoutList, (item: Exercise, index: number) => {
+            ListItem() {
+              Column() {
+                Row() {
+                  Text(`${item.name}`)
+                    .fontSize(20)
+                    .margin({ left: 25 })
+                    .layoutWeight(1)
+                  Image($r('app.media.add_icon'))
+                    .width(30)
+                    .margin({right: 40})
+                }
+                .justifyContent(FlexAlign.End)
+                .width('95%')
+                .height(100)
+                .borderRadius(20)
+                .margin(10)
+                .borderWidth(1)
               }
-              .borderWidth(1)
-              .columnStart(1)
-              .columnEnd(4)
-            }
-            else {
-              GridItem() {
-                Text(item)
-              }
-              .borderWidth(1)
-              .onClick(() => {
-                let tmp: string = item
-                this.pathStack.pushPathByName('ItemDetail', tmp)
-              })
             }
           })
         }
-        .rowsTemplate('1fr 1fr 1fr 1fr 1fr')
-        .columnsTemplate('1fr 1fr 1fr 1fr')
       }
       .mode(NavigationMode.Stack)
       .titleMode(NavigationTitleMode.Mini)
-      .title('Types')
       .navDestination(this.PagesMap)
     }
     .title('Workout List')
