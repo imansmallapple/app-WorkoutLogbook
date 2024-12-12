@@ -1,5 +1,6 @@
 import { ItemDetail } from './ItemDetail';
 import { Workout } from './Workout';
+import router from '@ohos.router';
 
 export interface Exercise {
   name: string;
@@ -132,8 +133,13 @@ export const exerciseList: Exercise[] = [
 @Entry
 @Component
 export struct WorkoutItem {
-  @State workoutList: Exercise[] = exerciseList
+  private searchController: SearchController = new SearchController()
+  @State exerciseList: Exercise[] = exerciseList
   pathStack: NavPathStack = new NavPathStack()
+  @State changeValue: string = ''
+  @State isFiltered: boolean = false
+  @State filteredExercise: Exercise[] = []
+  @State isShouldFocus: boolean = false
 
   @Builder
   PagesMap(name: string) {
@@ -144,63 +150,124 @@ export struct WorkoutItem {
     }
   }
 
-  build() {
-    NavDestination() {
-      Navigation(this.pathStack) {
-        // Grid() {
-        //   ForEach(this.workoutList, (item: string, index: number) => {
-        //     if (item == 'Cardio') {
-        //       GridItem() {
-        //         Text(item)
-        //       }
-        //       .borderWidth(1)
-        //       .columnStart(1)
-        //       .columnEnd(4)
-        //     }
-        //     else {
-        //       GridItem() {
-        //         Text(item)
-        //       }
-        //       .borderWidth(1)
-        //       .onClick(() => {
-        //         let tmp: string = item
-        //         this.pathStack.pushPathByName('ItemDetail', tmp)
-        //       })
-        //     }
-        //   })
-        // }
-        // .rowsTemplate('1fr 1fr 1fr 1fr 1fr')
-        // .columnsTemplate('1fr 1fr 1fr 1fr')
-        List() {
-          ForEach(this.workoutList, (item: Exercise, index: number) => {
-            ListItem() {
-              Column() {
-                Row() {
-                  Text(`${item.name}`)
-                    .fontSize(20)
-                    .margin({ left: 25 })
-                    .layoutWeight(1)
-                  Image($r('app.media.add_icon'))
-                    .width(30)
-                    .margin({right: 40})
-                }
-                .justifyContent(FlexAlign.End)
-                .width('95%')
-                .height(100)
-                .borderRadius(20)
-                .margin(10)
-                .borderWidth(1)
-              }
-            }
-          })
+  @Builder
+  NavigationComponent() {
+    Row() {
+      Row() {
+        Row() {
+          Image($r('app.media.back_icon'))
+            .width(20)
         }
+        .width('10%')
+        .justifyContent(FlexAlign.Center)
+
+        Search({
+          value: this.changeValue,
+          placeholder: 'Search training type',
+          controller: this.searchController,
+        })
+          .borderStyle(BorderStyle.Solid)
+          .borderWidth(1)
+          .borderRadius(10)
+          .borderColor('#41000000')
+          .margin({left: 10})
+          .searchIcon({
+            src: $r('app.media.search_icon'),
+          })
+          .focusable(true)
+          .width("80%")
+          .height(40)
+          .backgroundColor("#F5F5F5")
+          .placeholderColor(Color.Grey)
+          .placeholderFont({ size: 14, weight: 400 })
+          .textFont({ size: 14, weight: 400 })
+          .onChange((value: string) => {
+            this.changeValue = value
+            if (value == '') {
+              this.isFiltered = false
+            }
+            this.isFiltered = true
+            const filteredExercise = this.exerciseList.filter((exercise: Exercise) => {
+              return exercise.name.toLowerCase().includes(value.toLowerCase())
+            });
+            this.filteredExercise = filteredExercise
+          })
+          .onTouch(() => {
+            this.isShouldFocus = true
+          })
+          .focusable(this.isShouldFocus)
       }
-      .mode(NavigationMode.Stack)
-      .titleMode(NavigationTitleMode.Mini)
-      .navDestination(this.PagesMap)
+      .layoutWeight(1)
+      .justifyContent(FlexAlign.Start)
     }
-    .title('Workout List')
-    .hideTitleBar(true)
+    .width('100%')
+    .height('10%')
+    .backgroundColor('#00ffffff')
+    .shadow({
+      radius:5,
+      offsetY: 8,
+      color: '#1b000000'
+    })
+  }
+
+  build() {
+    Column() {
+
+      this.NavigationComponent()
+
+
+      // Grid() {
+      //   ForEach(this.workoutList, (item: string, index: number) => {
+      //     if (item == 'Cardio') {
+      //       GridItem() {
+      //         Text(item)
+      //       }
+      //       .borderWidth(1)
+      //       .columnStart(1)
+      //       .columnEnd(4)
+      //     }
+      //     else {
+      //       GridItem() {
+      //         Text(item)
+      //       }
+      //       .borderWidth(1)
+      //       .onClick(() => {
+      //         let tmp: string = item
+      //         this.pathStack.pushPathByName('ItemDetail', tmp)
+      //       })
+      //     }
+      //   })
+      // }
+      // .rowsTemplate('1fr 1fr 1fr 1fr 1fr')
+      // .columnsTemplate('1fr 1fr 1fr 1fr')
+      List() {
+        ForEach(this.exerciseList, (item: Exercise, index: number) => {
+          ListItem() {
+            Column() {
+              Row() {
+                Text(`${item.name}`)
+                  .fontSize(20)
+                  .margin({ left: 25 })
+                  .layoutWeight(1)
+                Image($r('app.media.add_icon'))
+                  .width(30)
+                  .margin({ right: 40 })
+              }
+              .justifyContent(FlexAlign.End)
+              .width('95%')
+              .height(100)
+              .borderRadius(20)
+              .margin(10)
+              .shadow({
+                radius: 10,
+                color: '#ff7dc87d',
+                offsetY: 10
+              })
+            }
+          }
+        })
+      }
+    }
   }
 }
 

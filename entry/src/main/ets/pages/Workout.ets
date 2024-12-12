@@ -44,12 +44,9 @@ export struct Workout {
   }
 
   build() {
-    Navigation(this.pathStack) {
       Stack() {
         Column() {
           Column() {
-
-
             // todo: 这一部分先拿来测试 date的数据，之后记得commit掉
             Text(`${this.currentDate}`)
             Row() {
@@ -60,62 +57,69 @@ export struct Workout {
                 .width(15)
                 .margin({ left: 10 })
             }
-            .width('90%')
+            .width('50%')
             .height(50)
             .backgroundColor(Color.White)
             .margin({
               bottom: 30
             })
-            .borderRadius(20)
-            .borderWidth(1)
+            .borderRadius(10)
             .justifyContent(FlexAlign.Center)
             .onClick(() => {
               this.dateSelectionController.open()
             })
+            .shadow({
+              radius: 20,
+              offsetX:10,
+              offsetY:10,
+              color: '#8044a04f'
+            })
 
             Row() {
               Text('Have you worked out today?')
-                .fontSize(25)
-                .fontColor(Color.Blue)
+                .fontSize(18)
+                .fontColor('#ff0b256e')
             }
             .width('80%')
             .height('20%')
             .margin({
               bottom: ('80%')
             })
+            .justifyContent(FlexAlign.Center)
           }
           .justifyContent(FlexAlign.Center)
-          .backgroundColor(Color.Pink)
+          .backgroundColor(Color.White)
           .height('100%')
           .width('100%')
         }
         .height('100%')
 
         Button() {
-          Column({ space: 10 }) {
-            Text('Add workout')
-              .fontSize(25)
-            Image($r('app.media.add_icon'))
-              .width(40)
+          Column() {
+            Text('+     Add workout')
+              .fontSize(20)
+              .fontColor(Color.White)
           }
         }
         .onClick(() => {
           this.optionDialogController.open()
-          // this.pathStack.pushPathByName("OptionPage", '');
-          // this.pathStack.pushPathByName("Workout List", '');
         })
-        .fontSize(25)
-        .backgroundColor(Color.Gray)
+        .backgroundColor('#b770c805')
         .type(ButtonType.Normal)
         .borderRadius(20)
         .fontWeight(800)
         .padding({
-          top: 20,
-          bottom: 20,
-          left: 40,
-          right: 40
+          top: 10,
+          bottom: 10,
+          left: 30,
+          right: 30
         })
         .zIndex(1)
+        .shadow({
+          radius: 30,
+          offsetY: 10,
+          color: Color.Gray
+        })
 
         Column() {
           Column() {
@@ -139,12 +143,6 @@ export struct Workout {
       .alignContent(Alignment.Center)
       .width('100%')
       .height('100%')
-    }
-    .mode(NavigationMode.Stack)
-    .titleMode(NavigationTitleMode.Mini)
-    .title('Index')
-    .navDestination(this.PagesMap)
-    .hideBackButton(true)
   }
 }
 
