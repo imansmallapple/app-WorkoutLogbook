@@ -170,7 +170,7 @@ export struct WorkoutItem {
           .borderWidth(1)
           .borderRadius(10)
           .borderColor('#41000000')
-          .margin({left: 10})
+          .margin({ left: 10 })
           .searchIcon({
             src: $r('app.media.search_icon'),
           })
@@ -204,7 +204,7 @@ export struct WorkoutItem {
     .height('10%')
     .backgroundColor('#00ffffff')
     .shadow({
-      radius:5,
+      radius: 5,
       offsetY: 8,
       color: '#1b000000'
     })
@@ -241,31 +241,60 @@ export struct WorkoutItem {
       // .rowsTemplate('1fr 1fr 1fr 1fr 1fr')
       // .columnsTemplate('1fr 1fr 1fr 1fr')
       List() {
-        ForEach(this.exerciseList, (item: Exercise, index: number) => {
-          ListItem() {
-            Column() {
-              Row() {
-                Text(`${item.name}`)
-                  .fontSize(20)
-                  .margin({ left: 25 })
-                  .layoutWeight(1)
-                Image($r('app.media.add_icon'))
-                  .width(30)
-                  .margin({ right: 40 })
+        if (!this.isFiltered) {
+          ForEach(this.exerciseList, (item: Exercise, index: number) => {
+            ListItem() {
+              Column() {
+                Row() {
+                  Text(`${item.name}`)
+                    .fontSize(20)
+                    .margin({ left: 25 })
+                    .layoutWeight(1)
+                  Image($r('app.media.add_icon'))
+                    .width(30)
+                    .margin({ right: 40 })
+                }
+                .justifyContent(FlexAlign.End)
+                .width('95%')
+                .height(100)
+                .borderRadius(20)
+                .margin(10)
+                .shadow({
+                  radius: 10,
+                  color: '#ff7dc87d',
+                  offsetY: 10
+                })
               }
-              .justifyContent(FlexAlign.End)
-              .width('95%')
-              .height(100)
-              .borderRadius(20)
-              .margin(10)
-              .shadow({
-                radius: 10,
-                color: '#ff7dc87d',
-                offsetY: 10
-              })
             }
-          }
-        })
+          })
+        }
+        else{
+          ForEach(this.filteredExercise, (item: Exercise, index: number) => {
+            ListItem() {
+              Column() {
+                Row() {
+                  Text(`${item.name}`)
+                    .fontSize(20)
+                    .margin({ left: 25 })
+                    .layoutWeight(1)
+                  Image($r('app.media.add_icon'))
+                    .width(30)
+                    .margin({ right: 40 })
+                }
+                .justifyContent(FlexAlign.End)
+                .width('95%')
+                .height(100)
+                .borderRadius(20)
+                .margin(10)
+                .shadow({
+                  radius: 10,
+                  color: '#ff7dc87d',
+                  offsetY: 10
+                })
+              }
+            }
+          })
+        }
       }
     }
   }
