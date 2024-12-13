@@ -2,7 +2,6 @@ import DateUtil from '../Utils/DateUtils';
 import { Exercise, WorkoutItem } from './WorkoutItem';
 import systemDateTime from '@ohos.systemDateTime';
 import { BusinessError } from '@ohos.base';
-import { CalenderDialog } from '../Component/calender'
 import { OptionDialog } from '../Component/exerciseOptionComponent'
 import { Sport } from '../model/dailyExercise'
 
@@ -10,7 +9,6 @@ import { Sport } from '../model/dailyExercise'
 @Component
 export struct Workout {
   pathStack: NavPathStack = new NavPathStack()
-  private tabController: TabsController = new TabsController()
   @State convertedDate: string = ''
   @StorageProp('date') date: number = DateUtil.beginTimeOfDay(new Date())
   @StorageLink('current_date') currentDate: string = ''
@@ -20,22 +18,22 @@ export struct Workout {
   })
   @State selectedDate: string = DateUtil.timestampToDate(new Date().getTime());
   @State arr: Sport[] = [
-  // {
-  //   name: 'dancing',
-  //   icon: $r('app.media.app_icon'),
-  //   consume: 400,
-  //   target: 2,
-  //   num: 1,
-  //   unit: "times"
-  // },
-  // {
-  //   name: 'Jumping',
-  //   icon: $r('app.media.app_icon'),
-  //   consume: 400,
-  //   target: 2,
-  //   num: 2,
-  //   unit: "hours"
-  // },
+  {
+    name: 'dancing',
+    icon: $r('app.media.app_icon'),
+    consume: 400,
+    target: 2,
+    num: 1,
+    unit: "times"
+  },
+  {
+    name: 'Jumping',
+    icon: $r('app.media.app_icon'),
+    consume: 400,
+    target: 2,
+    num: 2,
+    unit: "hours"
+  },
   ]
 
   @Builder
