@@ -1,6 +1,5 @@
 import DateUtil from '../Utils/DateUtils';
 import { WorkoutItem } from './WorkoutItem';
-import DateDialog from '../Component/dateSelectionDialog'
 import systemDateTime from '@ohos.systemDateTime';
 import { BusinessError } from '@ohos.base';
 import { CalenderDialog } from '../Component/calender'
@@ -14,20 +13,11 @@ export struct Workout {
   @State convertedDate: string = ''
   @StorageProp('date') date: number = DateUtil.beginTimeOfDay(new Date())
   @StorageLink('current_date') currentDate: string = ''
-  dateSelectionController: CustomDialogController = new CustomDialogController({
-    builder: DateDialog({
-      date: new Date(this.date)
-    })
-  })
-  calenderDialogController: CustomDialogController = new CustomDialogController({
-    builder: DateDialog({
-      date: new Date(this.date)
-    })
-  })
   optionDialogController: CustomDialogController = new CustomDialogController({
     builder: OptionDialog({}),
     alignment: DialogAlignment.Center
   })
+  @State selectedDate: string = DateUtil.timestampToDate(new Date().getTime());
 
   @Builder
   PagesMap(name: string) {
@@ -44,105 +34,117 @@ export struct Workout {
   }
 
   build() {
-      Stack() {
+    Stack() {
+      Column() {
         Column() {
-          Column() {
-            // todo: 这一部分先拿来测试 date的数据，之后记得commit掉
-            Text(`${this.currentDate}`)
-            Row() {
-              Text(`${this.currentDate == '' ? this.convertedDate : this.currentDate}`)
-                .fontSize(15)
-                .fontWeight(500)
-              Image($r('app.media.drop_icon'))
-                .width(15)
-                .margin({ left: 10 })
-            }
-            .width('50%')
-            .height(50)
-            .backgroundColor(Color.White)
-            .margin({
-              bottom: 30
-            })
-            .borderRadius(10)
-            .justifyContent(FlexAlign.Center)
-            .onClick(() => {
-              this.dateSelectionController.open()
-            })
-            .shadow({
-              radius: 20,
-              offsetX:10,
-              offsetY:10,
-              color: '#8044a04f'
-            })
-
-            Row() {
-              Text('Have you worked out today?')
-                .fontSize(18)
-                .fontColor('#ff0b256e')
-            }
-            .width('80%')
-            .height('20%')
-            .margin({
-              bottom: ('80%')
-            })
-            .justifyContent(FlexAlign.Center)
+          Row() {
+            Text(`${this.selectedDate}`)
+              .fontSize(15)
+              .fontWeight(500)
+            Image($r('app.media.drop_icon'))
+              .width(15)
+              .margin({ left: 10 })
           }
-          .justifyContent(FlexAlign.Center)
+          .width('50%')
+          .height(50)
           .backgroundColor(Color.White)
-          .height('100%')
-          .width('100%')
+          .margin({
+            bottom: 30
+          })
+          .borderRadius(10)
+          .justifyContent(FlexAlign.Center)
+          .onClick(() => {
+            CalendarPickerDialog.show({
+              selected: new Date(this.selectedDate),
+              onAccept: (value) => {
+                console.info("Calendar onAccept:" + JSON.stringify(value));
+                this.selectedDate = DateUtil.timestampToDate(value.getTime()); // 更新选中的日期
+              },
+              onCancel: () => {
+                console.info("Calendar onCancel");
+              },
+              onChange: (value) => {
+                console.info("Calendar onChange:" + JSON.stringify(value));
+                this.selectedDate = DateUtil.timestampToDate(value.getTime()); // 实时更新选中的日期
+              },
+            });
+
+          })
+          .shadow({
+            radius: 20,
+            offsetX: 10,
+            offsetY: 10,
+            color: '#8044a04f'
+          })
+
+          Row() {
+            Text('Have you worked out today?')
+              .fontSize(18)
+              .fontColor('#ff0b256e')
+          }
+          .width('80%')
+          .height('20%')
+          .margin({
+            bottom: ('80%')
+          })
+          .justifyContent(FlexAlign.Center)
         }
+        .justifyContent(FlexAlign.Center)
+        .backgroundColor(Color.White)
         .height('100%')
+        .width('100%')
+      }
+      .height('100%')
 
-        Button() {
-          Column() {
-            Text('+     Add workout')
-              .fontSize(20)
-              .fontColor(Color.White)
-          }
-        }
-        .onClick(() => {
-          this.optionDialogController.open()
-        })
-        .backgroundColor('#b770c805')
-        .type(ButtonType.Normal)
-        .borderRadius(20)
-        .fontWeight(800)
-        .padding({
-          top: 10,
-          bottom: 10,
-          left: 30,
-          right: 30
-        })
-        .zIndex(1)
-        .shadow({
-          radius: 30,
-          offsetY: 10,
-          color: Color.Gray
-        })
-
+      Button() {
         Column() {
-          Column() {
-            Image($r('app.media.calendar_icon'))
-              .width(30)
-              .onClick(() => {
-                this.calenderDialogController.open()
-              })
+          Text('+     Add workout')
+            .fontSize(20)
+            .fontColor(Color.White)
+        }
+      }
+      .onClick(() => {
+        this.optionDialogController.open()
+      })
+      .backgroundColor('#b770c805')
+      .type(ButtonType.Normal)
+      .borderRadius(20)
+      .fontWeight(800)
+      .padding({
+        top: 10,
+        bottom: 10,
+        left: 30,
+        right: 30
+      })
+      .zIndex(1)
+      .shadow({
+        radius: 30,
+        offsetY: 10,
+        color: Color.Gray
+      })
 
-            Text('Choose another day if you want')
-              .fontColor('#9f777676')
-          }
-          .alignItems(HorizontalAlign.End)
+      Column() {
+        Column() {
+          Image($r('app.media.calendar_icon'))
+            .width(30)
+            .onClick(() => {
+
+            })
+
+          Text('Choose another day if you want')
+            .fontColor('#9f777676')
         }
         .alignItems(HorizontalAlign.End)
-        .justifyContent(FlexAlign.End)
-        .width('80%')
-        .height('30%')
-        .zIndex(0)
       }
-      .alignContent(Alignment.Center)
-      .width('100%')
-      .height('100%')
+      .alignItems(HorizontalAlign.End)
+      .justifyContent(FlexAlign.End)
+      .width('80%')
+      .height('30%')
+      .zIndex(0)
+    }
+    .alignContent(Alignment.Center)
+    .width('100%')
+    .height('100%')
   }
 }
 
