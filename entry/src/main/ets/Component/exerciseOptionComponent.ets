@@ -34,6 +34,9 @@ export struct OptionDialog {
           offsetY: 10,
           color: '#6f37a441'
         })
+        .onClick(()=>{
+          router.pushUrl({url: 'pages/AddSport'})
+        })
 
         Row({ space: 10 }) {
           Image($r('app.media.strength_icon'))

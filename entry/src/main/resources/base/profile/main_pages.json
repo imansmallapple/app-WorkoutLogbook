@@ -3,6 +3,7 @@
     "pages/Index",
     "pages/Record",
     "pages/Workout",
-    "pages/WorkoutItem"
+    "pages/WorkoutItem",
+    "pages/AddSport"
   ]
 }
