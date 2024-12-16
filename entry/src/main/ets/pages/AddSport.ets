@@ -12,7 +12,7 @@ struct AddSport {
     {
       name: 'Dancing',
       icon: $r('app.media.icon'),
-      consume: 600,
+      consume: 450,
       unit: 'hour'
     },
     {
@@ -20,7 +20,19 @@ struct AddSport {
       icon: $r('app.media.icon'),
       consume: 600,
       unit: 'hour'
-    }
+    },
+    {
+      name: 'Jogging',
+      icon: $r('app.media.icon'),
+      consume: 500,
+      unit: 'hour'
+    },
+    {
+      name: 'Swimming',
+      icon: $r('app.media.icon'),
+      consume: 700,
+      unit: 'hour'
+    },
   ]
 
   build() {

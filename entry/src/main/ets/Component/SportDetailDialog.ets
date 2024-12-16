@@ -99,6 +99,7 @@ export struct SportDetailDialog {
             .copyOption(CopyOptions.None)
             .onClick(() => {
               this.show = true
+              // console.info(`${this.num.toFixed(1)}`)
             })
           Text('/ hour')
             .fontSize(35)

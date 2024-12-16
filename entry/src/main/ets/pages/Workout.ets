@@ -4,6 +4,11 @@ import systemDateTime from '@ohos.systemDateTime';
 import { BusinessError } from '@ohos.base';
 import { OptionDialog } from '../Component/exerciseOptionComponent'
 import { Sport } from '../model/dailyExercise'
+import { Record } from '../model/record'
+import promptAction from '@ohos.promptAction';
+
+PersistentStorage.persistProp<Record[]>('recordList', [])
+
 
 @Entry
 @Component
@@ -17,23 +22,27 @@ export struct Workout {
     alignment: DialogAlignment.Center
   })
   @State selectedDate: string = DateUtil.timestampToDate(new Date().getTime());
+  @StorageProp('recordList') records: Record[] = []
+  @State todayRecord: Record = new Record()
+  @State isTodayFinish: boolean = false
+
   @State arr: Sport[] = [
-  {
-    name: 'dancing',
-    icon: $r('app.media.app_icon'),
-    consume: 400,
-    target: 2,
-    num: 1,
-    unit: "times"
-  },
-  {
-    name: 'Jumping',
-    icon: $r('app.media.app_icon'),
-    consume: 400,
-    target: 2,
-    num: 2,
-    unit: "hours"
-  },
+    {
+      name: 'dancing',
+      icon: $r('app.media.app_icon'),
+      consume: 400,
+      target: 2,
+      num: 1,
+      unit: "times"
+    },
+    {
+      name: 'Jumping',
+      icon: $r('app.media.app_icon'),
+      consume: 400,
+      target: 2,
+      num: 2,
+      unit: "hours"
+    },
   ]
 
   @Builder
@@ -140,10 +149,30 @@ export struct Workout {
       })
 
       Column() {
-        Text("Task List")
-          .fontSize(13)
-          .fontWeight(700)
-          .margin({ left: 20, top: 20, bottom: 10 })
+        Row() {
+          Text("Task List")
+            .fontSize(13)
+            .fontWeight(700)
+            .margin({ left: 20, top: 20, bottom: 10 })
+          Blank()
+          Button('Finish today')
+            .type(ButtonType.Normal)
+            .borderRadius(5)
+            .width(120)
+            .fontSize(13)
+            .backgroundColor(Color.Black)
+            .onClick(() => {
+              //todo: add logic
+              this.todayRecord.date = this.selectedDate
+              console.info(`${this.todayRecord.date}`)
+              promptAction.showToast({
+                message: 'Task finished! Keep going~'
+              })
+            })
+
+        }
+        .width('100%')
+
         if (this.arr.length !== 0) {
           Column() {
             List() {
@@ -189,7 +218,7 @@ export struct Workout {
               .opacity(0.4)
           }
           .width('100%')
-          .margin({top: 20})
+          .margin({ top: 20 })
         }
       }
       .width('100%')
