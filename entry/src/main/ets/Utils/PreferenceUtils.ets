@@ -3,7 +3,7 @@ import Logger from '../Logger/Logger'
 
 // first preference tool
 class PreferenceUtil {
-  private pref: preferences.Preferences
+  private pref!: preferences.Preferences
 
   //Load first preference
   async loadPreference(context: Context) {
