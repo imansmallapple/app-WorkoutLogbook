@@ -1,12 +1,13 @@
 import { Sport } from '../model/dailyExercise'
 import router from '@ohos.router'
+import { SportDetailDialog } from '../Component/SportDetailDialog'
 
 @Entry
 @Component
 struct AddSport {
-
-  controller: CustomDialogController
-
+  controller: CustomDialogController = new CustomDialogController({
+    builder: SportDetailDialog()
+  })
   arr: Sport[] = [
     {
       name: 'Dancing',
@@ -51,15 +52,16 @@ struct AddSport {
                   .opacity(0.7)
               }
               .alignItems(HorizontalAlign.Start)
+
               Blank()
-              Button(){
+              Button() {
                 Image($r('app.media.icon'))
                   .width(20)
               }
               .backgroundColor(Color.Transparent)
-              .onClick(()=>{
+              .onClick(() => {
                 // todo: Trigger select sport action
-
+                this.controller.open()
               })
             }
             .width('100%')
