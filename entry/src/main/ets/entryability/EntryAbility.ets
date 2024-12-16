@@ -5,23 +5,23 @@ import Want from '@ohos.app.ability.Want';
 import window from '@ohos.window';
 import PreferenceUtil from '../Utils/PreferenceUtils'
 import DateUtil from '../Utils/DateUtils';
-import Logger from '../Logger/Logger'
-import DbUtil from '../Utils/DbUtils'
+// import Logger from '../Logger/Logger'
+// import DbUtil from '../Utils/DbUtils'
 
 export default class EntryAbility extends UIAbility {
   async onCreate(want: Want, launchParam: AbilityConstant.LaunchParam) {
     //Finish operation about database initialization
 
     //Load user preference
-    PreferenceUtil.loadPreference(this.context)
-    Logger.debug('Load user preference initialized')
-    //initialize data
-    AppStorage.setOrCreate('selectedDate', DateUtil.beginTimeOfDay(new Date()))
-    Logger.debug('Date initialized')
-
-    //Initialize database
-    await DbUtil.initDB(this.context)
-    Logger.debug('Database initialize')
+    // PreferenceUtil.loadPreference(this.context)
+    // Logger.debug('Load user preference initialized')
+    // //initialize data
+    // AppStorage.setOrCreate('selectedDate', DateUtil.beginTimeOfDay(new Date()))
+    // Logger.debug('Date initialized')
+    //
+    // //Initialize database
+    // await DbUtil.initDB(this.context)
+    // Logger.debug('Database initialize')
 
     hilog.info(0x0000, 'testTag', '%{public}s', 'Ability onCreate');
   }
