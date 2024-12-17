@@ -17,7 +17,7 @@ export class FinishObject {
   isFinish: boolean = false
 }
 
-export class SportSchedule{
+export class SportSchedule {
   date: string = ''
   sports: Sport[] = []
 }
@@ -163,7 +163,7 @@ export struct Workout {
         color: Color.Gray
       })
       .margin({
-        bottom:25
+        bottom: 25
       })
 
       Column() {
@@ -175,16 +175,17 @@ export struct Workout {
           Blank()
           if (this.finishObj.date !== this.selectedDate) {
 
-            Button('Finish today')
+            Button('Finish')
               .type(ButtonType.Normal)
               .borderRadius(5)
-              .width(120)
-              .fontSize(13)
+              .width(80)
+              .fontSize(15)
+              .margin({ right: 10 })
               .backgroundColor(Color.Black)
               .onClick(() => {
                 if (this.todaySports.length == 0) {
                   promptAction.showToast({
-                    message:"Please add a sport first!"
+                    message: "Please add a sport first!"
                   })
                 }
                 else {

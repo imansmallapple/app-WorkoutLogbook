@@ -86,10 +86,10 @@ export struct SportDetailDialog {
       .justifyContent(FlexAlign.End)
 
       Column({ space: 10 }) {
-        Image($r('app.media.icon'))
+        Image(`${this.current_sport.icon}`)
           .width(90)
           .height(90)
-        Text('Swimming')
+        Text(`${this.current_sport.name}`)
           .fontSize(20)
           .fontWeight(700)
           .fontColor(Color.Gray)

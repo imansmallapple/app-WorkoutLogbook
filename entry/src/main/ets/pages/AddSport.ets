@@ -11,7 +11,7 @@ struct AddSport {
   @State num: number = 0
   controller: CustomDialogController = new CustomDialogController({
     builder: SportDetailDialog({
-      num:$num
+      num: $num
     })
   })
   arr: Sport[] = [
@@ -51,6 +51,7 @@ struct AddSport {
       .onClick(() => {
         router.back()
       })
+
       Text(`num:${this.num}`)
 
       List({ space: 10 }) {
@@ -82,6 +83,7 @@ struct AddSport {
                 // todo: Trigger select sport action
                 this.current_sport = item
                 this.current_sport.num = this.num
+                this.num = 0
                 AppStorage.setOrCreate("current_sport", this.current_sport);
                 this.controller.open()
               })
