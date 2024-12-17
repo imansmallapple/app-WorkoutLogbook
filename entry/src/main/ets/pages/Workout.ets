@@ -133,7 +133,6 @@ export struct Workout {
         .backgroundColor(Color.White)
         .width('100%')
       }
-      Text(`233${this.todayRecord.sports}`)
 
       Button() {
         Column() {
