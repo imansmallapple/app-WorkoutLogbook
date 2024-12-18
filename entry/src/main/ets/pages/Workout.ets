@@ -41,6 +41,7 @@ export struct Workout {
   @State isTodayFinish: boolean = false
   @State num: number = 0
   @State sportSchedule: SportSchedule = new SportSchedule()
+  @State burnedCalories: number = 0
 
   aboutToAppear(): void {
     systemDateTime.getCurrentTime((error: BusinessError, time: number) => {
@@ -117,38 +118,40 @@ export struct Workout {
         .width('100%')
       }
 
-      Button() {
-        Column() {
-          Text('+     Add workout')
-            .fontSize(20)
-            .fontColor(Color.White)
+      if (this.finishObj.date !== this.selectedDate) {
+        Button() {
+          Column() {
+            Text('+     Add workout')
+              .fontSize(20)
+              .fontColor(Color.White)
+          }
         }
-      }
-      .onClick(() => {
-        // this.optionDialogController.open()
-        router.pushUrl({
-          url: 'pages/AddSport'
+        .onClick(() => {
+          // this.optionDialogController.open()
+          router.pushUrl({
+            url: 'pages/AddSport'
+          })
         })
-      })
-      .backgroundColor('#b770c805')
-      .type(ButtonType.Normal)
-      .borderRadius(20)
-      .fontWeight(800)
-      .padding({
-        top: 10,
-        bottom: 10,
-        left: 30,
-        right: 30
-      })
-      .zIndex(1)
-      .shadow({
-        radius: 30,
-        offsetY: 10,
-        color: Color.Gray
-      })
-      .margin({
-        bottom: 25
-      })
+        .backgroundColor('#b770c805')
+        .type(ButtonType.Normal)
+        .borderRadius(20)
+        .fontWeight(800)
+        .padding({
+          top: 10,
+          bottom: 10,
+          left: 30,
+          right: 30
+        })
+        .zIndex(1)
+        .shadow({
+          radius: 30,
+          offsetY: 10,
+          color: Color.Gray
+        })
+        .margin({
+          bottom: 25
+        })
+      }
 
       Column() {
         Row() {
@@ -158,7 +161,6 @@ export struct Workout {
             .margin({ left: 20, top: 20, bottom: 10 })
           Blank()
           if (this.finishObj.date !== this.selectedDate) {
-
             Button('Finish')
               .type(ButtonType.Normal)
               .borderRadius(5)
@@ -215,8 +217,12 @@ export struct Workout {
                   ListItem() {
                     TaskItem({
                       item: item,
-                      isComplete:item.isFinish
+                      isComplete: item.isFinish,
+                      burnedCalories: $burnedCalories
                     })
+                      .onClick(() => {
+                        console.info(`burned:${item.burnedCalories}`)
+                      })
                   }
                   .width('75%')
                 })

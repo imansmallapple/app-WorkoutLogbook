@@ -2,6 +2,7 @@ import { Exercise } from './WorkoutItem'
 import { Record } from '../model/record'
 import { Sport } from '../model/dailyExercise'
 import router from '@ohos.router'
+import TimeUtil from '../Utils/TimeUtils'
 
 PersistentStorage.persistProp<Record[]>('records', [])
 
@@ -17,11 +18,12 @@ export struct RecordPage {
   // @State records: Record[] = []
   @State record: Record = new Record()
   @StorageLink('records') records: Record[] = []
+  @State totalTime: number = 0
+  @State totalCalories: number = 0
 
   aboutToAppear(): void {
     console.info('RecordPage aboutToAppear triggered');
     console.info(`Number of records: ${this.records.length}`);
-
     this.records.forEach((item: Record, index: number) => {
       console.info(`Record ${index}: Date = ${item.date}`);
     });
@@ -31,6 +33,20 @@ export struct RecordPage {
     const params = router.getParams() as RouterParams
     this.record = params.record
     this.records.push(this.record)
+    this.updateTotals(); // 更新总计
+  }
+  updateTotals(): void {
+    this.totalTime = 0;
+    this.totalCalories = 0;
+
+    this.records.forEach((record: Record) => {
+      record.sports.forEach((sport: Sport) => {
+        this.totalTime += sport.usedTime;
+        this.totalCalories += sport.burnedCalories;
+      });
+    });
+
+    console.info(`Updated totals: Time = ${this.totalTime}, Calories = ${this.totalCalories}`);
   }
 
   @Builder
@@ -114,7 +130,7 @@ export struct RecordPage {
                           ForEach(item.sports, (sport: Sport, index: number) => {
                             ListItem() {
                               Column() {
-                                Row() {
+                                Row({space: 10}) {
                                   Text(`${sport.name}`)
                                     .fontSize(18)
                                     .fontColor('#f735028a')
@@ -123,10 +139,14 @@ export struct RecordPage {
                                       left: 10
                                     })
                                     .height(30)
+                                  Text(`Burned calories: ${sport.burnedCalories}`)
+                                    .fontSize(15)
+                                    .fontWeight(500)
+                                    .fontColor('#ff800303')
                                 }
 
                                 Row() {
-                                  Text('20m04s')
+                                  Text(`${TimeUtil.formatMilliseconds(sport.usedTime)}/${TimeUtil.formatHoursToHM(sport.num as number)}`)
                                     .fontSize(10)
                                     .fontColor('#f735028a')
                                     .fontWeight(600)
@@ -136,7 +156,7 @@ export struct RecordPage {
                                 }
                                 .justifyContent(FlexAlign.End)
                                 .width('100%')
-                                .height(10)
+                                .height(15)
                               }
                               .alignItems(HorizontalAlign.Start)
                               .width('95%')
@@ -151,6 +171,11 @@ export struct RecordPage {
                             }
                           })
                         }
+                      }
+                      Row(){
+                        Text(`Total time:${TimeUtil.formatMilliseconds(this.totalTime)}, consumed calories:${this.totalCalories}`)
+                          .fontWeight(500)
+                          .fontColor('#ff01273e')
                       }
                     }
                   }

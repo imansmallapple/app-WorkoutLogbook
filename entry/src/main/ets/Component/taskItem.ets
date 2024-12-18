@@ -2,11 +2,12 @@ import { Sport } from '../model/dailyExercise';
 
 @Component
 export default struct TaskItem {
-  private item?: Sport;
+  @State item: Sport = new Sport()
   @State isComplete: boolean = false;
   @State isStart: boolean = false;
   @State leftTime: number = 0.01;
   @State timeUsed: number = 0
+  @Link burnedCalories: number;
   timerController: TextTimerController = new TextTimerController()
 
   @Builder
@@ -26,6 +27,10 @@ export default struct TaskItem {
     this.timerController.pause()
   }
 
+  showBurnedCalories(goal: number, elapsedTime: number, totalTime: number) {
+    this.burnedCalories = parseInt(((elapsedTime / totalTime) * goal).toFixed(1))
+  }
+
   build() {
     Row({ space: 10 }) {
       Image($r('app.media.app_icon'))
@@ -40,23 +45,25 @@ export default struct TaskItem {
         })
 
       Column() {
-        Text(`Left:${this.item.num} hours`)
-          .fontSize(13)
-          .fontWeight(600)
-          .opacity(this.isComplete ? 0.4 : 0.8)
-          .decoration({
-            type: this.isComplete ? TextDecorationType.LineThrough : TextDecorationType.None
-          })
+        // Text(`Left:${this.item.num} hours`)
+        //   .fontSize(13)
+        //   .fontWeight(600)
+        //   .opacity(this.isComplete ? 0.4 : 0.8)
+        //   .decoration({
+        //     type: this.isComplete ? TextDecorationType.LineThrough : TextDecorationType.None
+        //   })
         if (!this.isComplete) {
           TextTimer({
             controller: this.timerController,
             isCountDown: true,
-            count: (0.1) * 60000
+            count: (this.item.num as number) * 3600000
           })
             .onTimer((utc, elapsedTime) => {
               this.timeUsed = elapsedTime
-              const remainingTime = (0.1) * 60000 - elapsedTime
-              console.info(`remain:${remainingTime}`)
+              const remainingTime = (this.item.num as number) * 3600000 - elapsedTime
+              this.showBurnedCalories(((this.item.num as number) * this.item.consume), elapsedTime, (this.item.num as number) * 3600000)
+              this.item.burnedCalories = this.burnedCalories
+              this.item.usedTime = elapsedTime
               if (remainingTime <= 0) {
                 this.item.isFinish = true
                 this.isComplete = true
@@ -67,7 +74,16 @@ export default struct TaskItem {
       }
 
       Blank()
-      Text(`${(this.item.num as number) * this.item.consume} calories`)
+      // Text(`${(this.item.num as number) * this.item.consume} calories`)
+      //   .fontSize(13)
+      //   .fontWeight(600)
+      //   .opacity(this.isComplete ? 0.4 : 0.8)
+      //   .decoration({
+      //     type: this.isComplete ? TextDecorationType.LineThrough : TextDecorationType.None
+      //   })
+
+      // todo: Add text show burned calories
+      Text(`burned: ${this.burnedCalories}`)
         .fontSize(13)
         .fontWeight(600)
         .opacity(this.isComplete ? 0.4 : 0.8)

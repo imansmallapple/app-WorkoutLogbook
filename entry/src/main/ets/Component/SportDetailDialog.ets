@@ -1,7 +1,6 @@
 import DateUtil from '../Utils/DateUtils';
-import { Callback } from '@ohos.base';
 import { Sport } from '../model/dailyExercise';
-import { Record } from '../model/record'
+import promptAction from '@ohos.promptAction';
 
 @Preview
 @CustomDialog
@@ -105,7 +104,7 @@ export struct SportDetailDialog {
               this.show = true
               // console.info(`${this.num.toFixed(1)}`)
             })
-          Text('/ hour')
+          Text(' hour(s)')
             .fontSize(35)
             .opacity(0.7)
             .fontWeight(800)
@@ -167,6 +166,9 @@ export struct SportDetailDialog {
             //Save sport
             this.current_sport.num = this.num
             this.todaySports.push(this.current_sport)
+            promptAction.showToast({
+              message:"Sport added!"
+            })
             this.controller.close()
           })
         }
