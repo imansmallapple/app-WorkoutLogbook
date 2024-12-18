@@ -7,6 +7,7 @@ import { Sport } from '../model/dailyExercise'
 import { Record } from '../model/record'
 import promptAction from '@ohos.promptAction';
 import router from '@ohos.router';
+import TaskItem from '../Component/taskItem';
 
 // PersistentStorage.persistProp<Record[]>('recordList', [])
 PersistentStorage.persistProp<Sport[]>('todaySports', [])
@@ -45,15 +46,6 @@ export struct Workout {
     systemDateTime.getCurrentTime((error: BusinessError, time: number) => {
       this.convertedDate = DateUtil.timestampToDate(time);
     });
-  }
-
-  @Builder
-  labelIcon(icon: string | Resource) { // Define a method named 'labelIcon' to build label icons
-    Image(icon)// Create an Image component with the icon parameter as the source
-      .objectFit(ImageFit.Contain)// Set the image object fit to 'Contain'
-      .width("28vp")// Set image width to 28vp
-      .height("28vp")// Set image height to 28vp
-      .margin("20vp") // Set margin to 20vp
   }
 
   build() {
@@ -221,58 +213,13 @@ export struct Workout {
               List() {
                 ForEach(this.todaySports, (item: Sport) => {
                   ListItem() {
-                    Row({ space: 10 }) {
-                      Image($r('app.media.app_icon'))
-                        .width(60)
-                        .height(60)
-                      Text(item.name)
-                        .fontSize(13)
-                        .fontWeight(600)
-                        .opacity(0.8)
-                      Text(`Left:${item.num} hours`)
-                        .fontSize(13)
-                        .fontWeight(600)
-                        .opacity(0.8)
-                      Blank()
-                      Text(`${(item.num as number) * item.consume} calories`)
-                        .fontSize(13)
-                        .fontWeight(600)
-                        .opacity(0.8)
-                      if (item.num == item.target) {
-                        Text('Consume ' + item.consume * (item.num as number) + ' Calories')
-                          .fontSize(13)
-                          .fontWeight(600)
-                          .margin({ right: 10 })
-                          .fontColor('#e90e5e85')
-                      }
-                        if (item.isStart === false) {
-                          Row() {
-                            this.labelIcon($r('app.media.start_icon'))
-                          }
-                          .onClick(() => {
-                            item.isStart = true
-                          })
-
-                        } else if (item.isStart === true) {
-                          Row() {
-                            this.labelIcon($r('app.media.pause_icon'))
-                          }.onClick(() => {
-                            item.isStart = false
-                          })
-                        }
-                        // Image($r('app.media.start_icon'))
-                        //   .width(20)
-                    }
-                    .width('100%')
-                    .backgroundColor(Color.White)
-                    .borderRadius(15)
-                    .margin({ bottom: 10 })
+                    TaskItem({ item: item })
                   }
-                  .width('90%')
+                  .width('75%')
                 })
               }
               .width('100%')
-              .alignListItem(ListItemAlign.Center)
+              .alignListItem(ListItemAlign.Start)
             }
             .width('100%')
           }
