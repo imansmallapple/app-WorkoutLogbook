@@ -1,5 +1,15 @@
 ## Workout Logbook application
 
+### Introduction
+Workout Logbook app is designed to help users easily record and manage their daily exercise, track exercise duration and calorie consumption, and make health management simple and efficient.
+
+![Alt text](images/image_1.png)  
+![Alt text](images/image_2.png)  
+![Alt text](images/image_3.png)  
+![Alt text](images/image_4.png)  
+![Alt text](images/image_5.png)  
+![Alt text](images/image_6.png)  
+![Alt text](images/image_7.png)  
 
 Problem faced during development
 1. [Implement the use of DatePicker](#implement-the-use-of-datepicker)
@@ -44,7 +54,7 @@ Add controller to the index page and link it to the calender icon
 ## Require Panel to choose sport exercise duration
 #### Requirement description
 In order to let users easier select the exercise duration, it's good to add a keyboard on the page as follows.
-![Alt text](images/image_1.png)
+![Alt text](images/image_0.png)
 
 #### Implementation
 code as following:
