@@ -27,9 +27,11 @@ export struct RecordPage {
 
   onPageShow() {
     const params = router.getParams() as RouterParams
-    this.record = params.record
-    this.records.push(this.record)
-    this.updateTotals(); // 更新总计
+    if(params !== undefined){
+      this.record = params.record
+      this.records.push(this.record)
+      this.updateTotals(); // 更新总计
+    }
   }
 
   updateTotals(): void {

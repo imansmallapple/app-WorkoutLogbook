@@ -6,6 +6,7 @@ import { Record } from '../model/record'
 import promptAction from '@ohos.promptAction';
 import router from '@ohos.router';
 import TaskItem from '../Component/taskItem';
+
 export class FinishObject {
   date: string = ''
   isFinish: boolean = false
@@ -13,8 +14,7 @@ export class FinishObject {
 
 PersistentStorage.persistProp<Sport[]>('todaySports', [])
 AppStorage.setOrCreate<Record[]>("recordList", []);
-PersistentStorage.persistProp<FinishObject>('finishObj',new FinishObject())
-
+PersistentStorage.persistProp<FinishObject>('finishObj', new FinishObject())
 
 
 export class SportSchedule {
@@ -50,6 +50,22 @@ export struct Workout {
       Column() {
         Column() {
           Row() {
+            Image($r('app.media.history'))
+              .width(40)
+              .onClick(() => {
+                if(1) {
+                  router.pushUrl({
+                    url: 'pages/Record'
+                  })
+                }
+              })
+              .margin({ top: 10, right: 10 })
+              .opacity(0.5)
+          }
+          .width('100%')
+          .justifyContent(FlexAlign.End)
+
+          Row() {
             Text(`${this.selectedDate}`)
               .fontSize(15)
               .fontWeight(500)
@@ -68,7 +84,6 @@ export struct Workout {
             offsetY: 10,
             color: '#8044a04f'
           })
-          .margin({ top: 30 })
 
           Row() {
             if (this.finishObj.date !== this.selectedDate) {
@@ -213,7 +228,7 @@ export struct Workout {
               Image($r("app.media.no_task"))
                 .width(100)
                 .height(100)
-                .margin({left:15})
+                .margin({ left: 15 })
                 .opacity(0.4)
               Text('No task, please add')
                 .fontSize(20)
