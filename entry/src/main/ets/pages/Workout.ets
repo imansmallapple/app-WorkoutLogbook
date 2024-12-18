@@ -38,6 +38,7 @@ export struct Workout {
   @State num: number = 0
   @State sportSchedule: SportSchedule = new SportSchedule()
   @State burnedCalories: number = 0
+  @State isTouch: boolean = false
 
   aboutToAppear(): void {
     systemDateTime.getCurrentTime((error: BusinessError, time: number) => {
@@ -53,7 +54,7 @@ export struct Workout {
             Image($r('app.media.history'))
               .width(40)
               .onClick(() => {
-                if(1) {
+                if (1) {
                   router.pushUrl({
                     url: 'pages/Record'
                   })

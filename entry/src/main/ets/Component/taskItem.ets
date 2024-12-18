@@ -16,7 +16,7 @@ export default struct TaskItem {
       .objectFit(ImageFit.Contain)
       .width("25vp")
       .height("25vp")
-      .margin({left: 15})
+      .margin({ left: 15 })
   }
 
   startSport() {
@@ -36,15 +36,15 @@ export default struct TaskItem {
       Image(this.item.icon)
         .width(60)
         .height(60)
-      Text(this.item.name)
-        .fontSize(13)
-        .fontWeight(600)
-        .opacity(this.isComplete ? 0.4 : 0.8)
-        .decoration({
-          type: this.isComplete ? TextDecorationType.LineThrough : TextDecorationType.None
-        })
 
       Column() {
+        Text(this.item.name)
+          .fontSize(13)
+          .fontWeight(600)
+          .opacity(this.isComplete ? 0.4 : 0.8)
+          .decoration({
+            type: this.isComplete ? TextDecorationType.LineThrough : TextDecorationType.None
+          })
         if (!this.isComplete) {
           TextTimer({
             controller: this.timerController,
@@ -67,7 +67,7 @@ export default struct TaskItem {
       }
 
       Blank()
-      Text(`Consumed: ${this.burnedCalories} calories`)
+      Text(`Consumed: ${this.item.burnedCalories} calories`)
         .fontSize(13)
         .fontWeight(600)
         .opacity(this.isComplete ? 0.4 : 0.8)
@@ -84,15 +84,16 @@ export default struct TaskItem {
           this.labelIcon($r('app.media.complete_icon'))
         }
       }
-      .onClick(() => {
-        this.isStart = !this.isStart
-        this.isStart ? this.startSport() : this.pauseSport()
-      })
+      .margin({left: 50})
     }
     .width('100%')
     .backgroundColor(Color.White)
     .borderRadius(15)
-    .margin({ bottom: 10 })
+    .margin({ bottom: 10, right: 10 })
+    .onClick(() => {
+      this.isStart = !this.isStart
+      this.isStart ? this.startSport() : this.pauseSport()
+    })
 
   }
 }
