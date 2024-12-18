@@ -70,9 +70,6 @@ export struct SportDetailDialog {
       Row() {
         Blank()
 
-        Text(DateUtil.timestampToDate(this.date))
-          .fontSize(15)
-          .fontWeight(600)
       }
       .width('95%')
       .justifyContent(FlexAlign.End)
@@ -95,8 +92,8 @@ export struct SportDetailDialog {
             .copyOption(CopyOptions.None)
             .onClick(() => {
               this.show = true
-              // console.info(`${this.num.toFixed(1)}`)
             })
+            .focusable(false)
           Text(' hour(s)')
             .fontSize(35)
             .opacity(0.7)
