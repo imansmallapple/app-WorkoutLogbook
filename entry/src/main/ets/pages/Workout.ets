@@ -213,7 +213,10 @@ export struct Workout {
               List() {
                 ForEach(this.todaySports, (item: Sport) => {
                   ListItem() {
-                    TaskItem({ item: item })
+                    TaskItem({
+                      item: item,
+                      isComplete:item.isFinish
+                    })
                   }
                   .width('75%')
                 })
