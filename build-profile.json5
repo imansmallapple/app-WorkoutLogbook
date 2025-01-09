@@ -4,13 +4,13 @@
       {
         "name": "default",
         "material": {
-          "certpath": "C:/Users/c84381641/.ohos/config/openharmony/default_WorkoutLogbook_jmiTTIeF-_R8s2beNVyQGVdMKM51i8x0iDwh7vCmw14=.cer",
-          "storePassword": "0000001BFBF671A50BC0AD59005BDD840F90A3BDCD5875236669F533D479BA8539754FD217D7B8A687A665",
+          "certpath": "./.secret/oniro-ci.cer",
+          "storePassword": "0000001BD5A16C997F0EF958596A946A060A50ED61DF4D945A74AB3C462CBCFBE5BA90427A3DEAC0D27D3E",
           "keyAlias": "debugKey",
-          "keyPassword": "0000001BB1235718E12076DCBD5DDF98ADD27AB488AFD574F32D5A180B75130ABFBC008A594CAAE3E40387",
-          "profile": "C:/Users/c84381641/.ohos/config/openharmony/default_WorkoutLogbook_jmiTTIeF-_R8s2beNVyQGVdMKM51i8x0iDwh7vCmw14=.p7b",
+          "keyPassword": "0000001BACA49D623B16BE8A9C4C216A9ED64244F7255BC9AEF8C862264DDA900496AD36202857353771E8",
+          "profile": "./.secret/oniro-ci.p7b",
           "signAlg": "SHA256withECDSA",
-          "storeFile": "C:/Users/c84381641/.ohos/config/openharmony/default_WorkoutLogbook_jmiTTIeF-_R8s2beNVyQGVdMKM51i8x0iDwh7vCmw14=.p12"
+          "storeFile": "./.secret/oniro-ci.p12"
         }
       }
     ],
