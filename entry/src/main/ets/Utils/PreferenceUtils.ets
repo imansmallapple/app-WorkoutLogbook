@@ -1,5 +1,5 @@
-import preferences from '@ohos.data.preferences';
 import Logger from '../Logger/Logger'
+import { preferences } from '@kit.ArkData'
 
 // first preference tool
 class PreferenceUtil {

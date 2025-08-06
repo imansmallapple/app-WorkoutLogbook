@@ -1,11 +1,8 @@
 import DateUtil from '../Utils/DateUtils';
-import systemDateTime from '@ohos.systemDateTime';
-import { BusinessError } from '@ohos.base';
 import { Sport } from '../model/dailyExercise'
 import { Record } from '../model/record'
-import promptAction from '@ohos.promptAction';
-import router from '@ohos.router';
 import TaskItem from '../Component/taskItem';
+import { BusinessError, systemDateTime } from '@kit.BasicServicesKit';
 
 export class FinishObject {
   date: string = ''
@@ -55,7 +52,7 @@ export struct Workout {
               .width(40)
               .onClick(() => {
                 if (1) {
-                  router.pushUrl({
+                  this.getUIContext().getRouter().pushUrl({
                     url: 'pages/Record'
                   })
                 }
@@ -91,8 +88,7 @@ export struct Workout {
               Text('Have you worked out today?')
                 .fontSize(18)
                 .fontColor('#ff0b256e')
-            }
-            else {
+            } else {
               Text('Good Job! Keep going~')
                 .fontSize(18)
                 .fontColor('#ff0b256e')
@@ -119,7 +115,7 @@ export struct Workout {
           }
         }
         .onClick(() => {
-          router.pushUrl({
+          this.getUIContext().getRouter().pushUrl({
             url: 'pages/AddSport'
           })
         })
@@ -161,11 +157,10 @@ export struct Workout {
               .backgroundColor(Color.Black)
               .onClick(() => {
                 if (this.todaySports.length == 0) {
-                  promptAction.showToast({
+                  this.getUIContext().getPromptAction().showToast({
                     message: "Please add a sport first!"
                   })
-                }
-                else {
+                } else {
                   this.finishObj.date = this.selectedDate
                   this.finishObj.isFinish = true
                   AppStorage.setOrCreate<FinishObject>("finishObj", this.finishObj);
@@ -176,10 +171,11 @@ export struct Workout {
                   this.todayRecord.date = this.selectedDate
                   AppStorage.setOrCreate<Record[]>("recordList", this.records);
 
-                  promptAction.showToast({
+                  this.getUIContext().getPromptAction().showToast({
                     message: 'Task finished! Keep going~'
                   })
-                  router.pushUrl({ url: 'pages/Record',
+                  this.getUIContext().getRouter().pushUrl({
+                    url: 'pages/Record',
                     params: {
                       record: this.todayRecord
                     }
@@ -223,8 +219,7 @@ export struct Workout {
               .alignListItem(ListItemAlign.Start)
             }
             .width('100%')
-          }
-          else {
+          } else {
             Column({ space: 8 }) {
               Image($r("app.media.no_task"))
                 .width(100)

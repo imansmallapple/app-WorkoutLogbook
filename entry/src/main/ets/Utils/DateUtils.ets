@@ -1,5 +1,4 @@
-import systemDateTime from '@ohos.systemDateTime';
-import { BusinessError } from '@ohos.base';
+import { BusinessError, systemDateTime } from '@kit.BasicServicesKit';
 
 class DateUtil {
   private date: string = ''

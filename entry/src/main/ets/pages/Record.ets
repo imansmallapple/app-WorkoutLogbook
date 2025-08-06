@@ -1,6 +1,5 @@
 import { Record } from '../model/record'
 import { Sport } from '../model/dailyExercise'
-import router from '@ohos.router'
 import TimeUtil from '../Utils/TimeUtils'
 
 PersistentStorage.persistProp<Record[]>('records', [])
@@ -26,7 +25,7 @@ export struct RecordPage {
   }
 
   onPageShow() {
-    const params = router.getParams() as RouterParams
+    const params = this.getUIContext().getRouter().getParams() as RouterParams
     if(params !== undefined){
       this.record = params.record
       this.records.push(this.record)
@@ -57,7 +56,7 @@ export struct RecordPage {
             .width(20)
         }
         .onClick(() => {
-          router.back()
+          this.getUIContext().getRouter().back()
         })
         .width('10%')
         .justifyContent(FlexAlign.Center)

@@ -1,6 +1,5 @@
 import DateUtil from '../Utils/DateUtils';
 import { Sport } from '../model/dailyExercise';
-import promptAction from '@ohos.promptAction';
 
 @Preview
 @CustomDialog
@@ -156,7 +155,7 @@ export struct SportDetailDialog {
             //Save sport
             this.current_sport.num = this.num
             this.todaySports.push(this.current_sport)
-            promptAction.showToast({
+            this.getUIContext().getPromptAction().showToast({
               message:"Sport added!"
             })
             this.controller.close()

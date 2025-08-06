@@ -1,5 +1,4 @@
 import { Sport } from '../model/dailyExercise'
-import router from '@ohos.router'
 import { SportDetailDialog } from '../Component/SportDetailDialog'
 import { SportData } from '../Data/sportData';
 
@@ -25,7 +24,7 @@ struct AddSport {
       }
       .margin({ top: 10, left: 10, bottom: 10 })
       .onClick(() => {
-        router.back()
+        this.getUIContext().getRouter().back()
       })
 
       // Text(`num:${this.num}`)
